@@ -1,27 +1,41 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 
-export const setBeverages = ( beverages ) => {
+export const setMenu = ( menu ) => {
     return {
-        type: actionTypes.SET_BEVERAGES,
-        beverages: beverages
+        type: actionTypes.SET_MENU,
+        menu: menu
     };
 };
 
-export const fetchBeveragesFailed = () => {
+export const fetchMenuFailed = () => {
     return {
-        type: actionTypes.FETCH_BEVERAGES_FAILED
+        type: actionTypes.FETCH_MENU_FAILED
     };
 };
+
+export const addBeverage = (price) => {
+    return {
+        type: actionTypes.ADD_BEVERAGE,
+        price: price
+    };
+}
+
+export const removeBeverage = (price) => {
+    return {
+        type: actionTypes.REMOVE_BEVERAGE,
+        price: price
+    };
+}
 
 export const initBar = () => {
     return dispatch => {
-        axios.get( 'https://react-coffee-bar.firebaseio.com/Beverages.json' )
+        axios.get( 'https://react-coffee-bar.firebaseio.com/menu.json' )
             .then( response => {
-                dispatch(setBeverages(response.data));
+                dispatch(setMenu(response.data));
             } )
             .catch( error => {
-                dispatch(fetchBeveragesFailed());
+                dispatch(fetchMenuFailed());
             } );
     };
 };

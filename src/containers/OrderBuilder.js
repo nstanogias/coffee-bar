@@ -5,11 +5,15 @@ import {connect} from 'react-redux';
 import axios from '../axios-orders';
 import * as actions from '../store/actions/actions';
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
-import {Tabs, Table, Icon} from 'antd';
+import {Tabs, Table, Icon, Button, Modal} from 'antd';
 
 const TabPane = Tabs.TabPane;
 
 class OrderBuilder extends Component {
+
+    state = {
+        purchasing: false
+    }
 
     componentWillMount() {
         this.props.onInitBar();
@@ -19,7 +23,34 @@ class OrderBuilder extends Component {
         // console.log(key);
     }
 
+    purchaseCancelled = () => {
+
+    }
+
+    purchaseContinued = () => {
+
+    }
+
+    purchaseCancelHandler = () => {
+        this.setState( { purchasing: false } );
+    }
+
+    purchaseContinueHandler = () => {
+        // this.props.onInitPurchase();
+        // this.props.history.push('/checkout');
+    }
     render() {
+
+        const data = [{
+            name: 'cola',
+            price: 3,
+            key: "1"
+        },
+            {
+                name: 'fanta',
+                price: 3,
+                key: "2"
+            }];
 
         const columns = [{
             title: 'Name',
@@ -34,52 +65,68 @@ class OrderBuilder extends Component {
             {
                 title: 'Remove',
                 key: 'remove',
-                render: () => (
-                    <a href="#" className="ant-dropdown-link"><Icon type="minus"/></a>
+                render: (record) => (
+                    <Button onClick={() => this.props.onDrinkRemoved(record.price)} type="primary" icon="minus"> </Button>
                 ),
             },
             {
                 title: 'Add',
                 key: 'add',
-                render: (text, record) => (
-                    <a href="#" className="ant-dropdown-link"><Icon type="plus"/></a>
+                render: (record) => (
+                    <Button onClick={() => this.props.onDrinkAdded(record.price)} type="primary" icon="plus"> </Button>
                 ),
             }];
 
-        let data = null;
-        if (this.props.bvgs) {
-            console.log(this.props.bvgs);
+        let menu = null;
+        if (this.props.menu) {
+            console.log(this.props.menu);
             console.log(this.props.price);
-            data = Object.keys(this.props.bvgs).map(el => {
-                return {
-                    name: el,
-                    price: this.props.bvgs[el]
-                }
-            });
-            console.log(data);
+            menu = Object.keys(this.props.menu).map(el =>
+                Object.keys(el).map( el2 => {
+                        return {
+                            name: el2,
+                            price: this.props.menu[el2]
+                        }
+                    })
+            );
+            console.log(menu);
         }
 
+        let orderSummary = null;
+        orderSummary = <OrderSummary
+            ingredients={this.props.ings}
+            price={this.props.price}
+            purchaseCancelled={this.purchaseCancelHandler}
+            purchaseContinued={this.purchaseContinueHandler} />;
+
         return (
-            <Tabs defaultActiveKey="1" onChange={this.callback()}>
-                <TabPane tab="Tab 1" key="1"><Table columns={columns} dataSource={data}/></TabPane>
-                <TabPane tab="Tab 2" key="2"><Table columns={columns} dataSource={data}/></TabPane>
-            </Tabs>
+            <div>
+                <Tabs defaultActiveKey="1" onChange={this.callback()}>
+                    <TabPane tab="Tab 1" key="1"><Table key="1" columns={columns} dataSource={data}/></TabPane>
+                    <TabPane tab="Tab 2" key="2"><Table key="2" columns={columns} dataSource={data}/></TabPane>
+                </Tabs>
+                <p>Current Price: <strong>{this.props.price.toFixed(2)}</strong></p>'
+
+                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+                    {orderSummary}
+                </Modal>
+            </div>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        bvgs: state.beverages,
+        menu: state.menu,
         price: state.totalPrice
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onInitBar: () => dispatch(actions.initBar())
-        //onBeverageAdded: (ingName) => dispatch({type: actionTypes.ADD_BEVERAGE, ingredientName: ingName}),
-        //onBeverageRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_BEVERAGE, ingredientName: ingName})
+        onInitBar: () => dispatch(actions.initBar()),
+        onDrinkAdded: (price) => dispatch(actions.addBeverage(price)),
+        onDrinkRemoved: (price) => dispatch(actions.removeBeverage(price))
     }
 }
 

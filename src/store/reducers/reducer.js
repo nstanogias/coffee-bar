@@ -2,28 +2,36 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-    beverages: null,
+    menu: null,
     totalPrice: 0,
     error: false
 }
 
-const setBeverages = (state, action) => {
+const setMenu = (state, action) => {
     return updateObject( state, {
-        beverages: action.beverages,
-        totalPrice: 0,
-        error: false
+        menu: action.menu
     } );
 }
 
-const fetchBeveragesFailed = (state, action) => {
+const fetchMenuFailed = (state, action) => {
     return updateObject( state, { error: true } );
 };
+
+const addBeverage = (state, action) => {
+    return updateObject( state, {totalPrice: state.totalPrice + action.price} );
+}
+
+const removeBeverage = (state, action) => {
+    return updateObject( state, {totalPrice: state.totalPrice - action.price} );
+}
 
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.SET_BEVERAGES: return setBeverages(state, action);
-        case actionTypes.FETCH_BEVERAGES_FAILED: return fetchBeveragesFailed(state, action);
+        case actionTypes.SET_MENU: return setMenu(state, action);
+        case actionTypes.FETCH_MENU_FAILED: return fetchMenuFailed(state, action);
+        case actionTypes.ADD_BEVERAGE: return addBeverage(state, action);
+        case actionTypes.REMOVE_BEVERAGE: return removeBeverage(state, action);
         default: return state;
     }
 };
