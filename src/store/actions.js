@@ -1,2 +1,0 @@
-export const ADD_BEVERAGE = 'ADD_BEVERAGE';
-export const REMOVE_BEVERAGE = 'REMOVE_BEVERAGE';
