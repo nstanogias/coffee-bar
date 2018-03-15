@@ -5,7 +5,8 @@ import {connect} from 'react-redux';
 import axios from '../axios-orders';
 import * as actions from '../store/actions/actions';
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
-import {Tabs, Table, Icon, Button, Modal} from 'antd';
+import {Tabs, Table, Button, Modal} from 'antd';
+import OrderSummary from '../components/OrderSummary/OrderSummary';
 
 const TabPane = Tabs.TabPane;
 
@@ -23,12 +24,16 @@ class OrderBuilder extends Component {
         // console.log(key);
     }
 
-    purchaseCancelled = () => {
-
+    handleCancel = () => {
+        this.setState( { purchasing: false } );
     }
 
-    purchaseContinued = () => {
+    handleOk = () => {
+        this.props.history.push('/checkout');
+    }
 
+    showModal = () => {
+        this.setState( { purchasing: true } );
     }
 
     purchaseCancelHandler = () => {
@@ -94,7 +99,6 @@ class OrderBuilder extends Component {
 
         let orderSummary = null;
         orderSummary = <OrderSummary
-            ingredients={this.props.ings}
             price={this.props.price}
             purchaseCancelled={this.purchaseCancelHandler}
             purchaseContinued={this.purchaseContinueHandler} />;
@@ -107,9 +111,10 @@ class OrderBuilder extends Component {
                 </Tabs>
                 <p>Current Price: <strong>{this.props.price.toFixed(2)}</strong></p>'
 
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+                <Modal title="Order Summary" visible={this.state.purchasing} onOk={this.handleOk} onCancel={this.handleCancel}>
                     {orderSummary}
                 </Modal>
+                <Button type={'primary'} onClick={this.showModal}>Order</Button>
             </div>
         )
     }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/Aux';
-import { Button } from 'antd';
 
 class OrderSummary extends Component {
 
@@ -11,8 +10,6 @@ class OrderSummary extends Component {
 
               <p><strong>Total Price: {this.props.price.toFixed( 2 )}</strong></p>
               <p>Continue to Checkout?</p>
-              <Button type="danger" clicked={this.props.purchaseCancelled}>CANCEL</Button>
-              <Button type="primary" clicked={this.props.purchaseContinued}>CONTINUE</Button>
           </Aux>
         );
     }
