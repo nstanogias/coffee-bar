@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import OrderBuilder from './containers/OrderBuilder';
-import { Route, Switch } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 import Checkout from './containers/Checkout';
 
 class App extends Component {
     render () {
         return (
             <div>
-                <Switch>
+                <div>
+                    <ul className="header">
+                        <li><NavLink exact to="/">Home</NavLink></li>
+                        <li><NavLink to="/checkout">Checkout</NavLink></li>
+                        <li><NavLink to="/orders">Orders</NavLink></li>
+                    </ul>
+                </div>
+                <div className="content">
                     <Route path="/checkout" component={Checkout}/>
                     <Route path="/" exact component={OrderBuilder}/>
-                </Switch>
+                </div>
             </div>
         );
     }
