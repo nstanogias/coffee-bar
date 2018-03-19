@@ -1,5 +1,5 @@
 export {
     initBar,
-    addBeverage,
-    removeBeverage
+    addDrink,
+    removeDrink
 } from './actionsCreator';

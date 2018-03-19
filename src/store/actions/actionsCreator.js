@@ -14,17 +14,19 @@ export const fetchMenuFailed = () => {
     };
 };
 
-export const addBeverage = (price) => {
+export const addDrink = (data) => {
     return {
-        type: actionTypes.ADD_BEVERAGE,
-        price: price
+        type: actionTypes.ADD_DRINK,
+        price: data.price,
+        name: data.name
     };
 }
 
-export const removeBeverage = (price) => {
+export const removeDrink = (data) => {
     return {
-        type: actionTypes.REMOVE_BEVERAGE,
-        price: price
+        type: actionTypes.REMOVE_DRINK,
+        price: data.price,
+        name: data.name
     };
 }
 

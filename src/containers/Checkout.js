@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Input, Button} from 'antd';
+import { connect } from 'react-redux';
 
 class Checkout extends Component {
 
@@ -106,4 +107,10 @@ class Checkout extends Component {
 
 const CheckoutForm = Form.create()(Checkout);
 
-export default CheckoutForm;
+const mapStateToProps = state => {
+    return {
+        order: state.bar.order
+    }
+}
+
+export default connect(mapStateToProps)(CheckoutForm);
