@@ -83,18 +83,23 @@ class OrderBuilder extends Component {
             }];
 
         let menu = null;
+        let tabPanes = <TabPane tab="Tab1" key="1"><Table key="1" columns={columns} dataSource={data}/></TabPane>;
         if (this.props.menu) {
             console.log(this.props.menu);
-            console.log(this.props.price);
-            menu = Object.keys(this.props.menu).map(el =>
-                Object.keys(el).map( el2 => {
-                        return {
-                            name: el2,
-                            price: this.props.menu[el2]
-                        }
-                    })
+            Object.entries(this.props.menu).map((key, value) => {
+                    console.log(key);
+                    console.log(value);
+                }
             );
-            console.log(menu);
+
+            tabPanes = Object.entries(this.props.menu).map((value, key) => (
+                <TabPane tab={value[0].toUpperCase()} key={key}><Table key={key} columns={columns} dataSource={Object.entries(value[1]).map((value, key) => {
+                    return {
+                        name: value,
+                        price: key
+                    }
+                })}/></TabPane>
+            ))
         }
 
         let orderSummary = null;
@@ -106,12 +111,11 @@ class OrderBuilder extends Component {
         return (
             <div>
                 <Tabs defaultActiveKey="1" onChange={this.callback()}>
-                    <TabPane tab="Tab 1" key="1"><Table key="1" columns={columns} dataSource={data}/></TabPane>
-                    <TabPane tab="Tab 2" key="2"><Table key="2" columns={columns} dataSource={data}/></TabPane>
+                    {tabPanes}
                 </Tabs>
                 <p>Current Price: <strong>{this.props.price.toFixed(2)}</strong></p>'
 
-                <Modal title="Order Summary" visible={this.state.purchasing} onOk={this.handleOk} onCancel={this.handleCancel}>
+                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
                 <Button type={'primary'} onClick={this.showModal}>Order</Button>
