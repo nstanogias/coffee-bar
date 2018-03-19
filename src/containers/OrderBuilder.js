@@ -24,10 +24,6 @@ class OrderBuilder extends Component {
         // console.log(key);
     }
 
-    handleCancel = () => {
-        this.setState( { purchasing: false } );
-    }
-
     handleOk = () => {
         this.props.history.push('/checkout');
     }
@@ -82,7 +78,6 @@ class OrderBuilder extends Component {
                 ),
             }];
 
-        let menu = null;
         let tabPanes = <TabPane tab="Tab1" key="1"><Table key="1" columns={columns} dataSource={data}/></TabPane>;
         if (this.props.menu) {
             console.log(this.props.menu);
@@ -94,9 +89,11 @@ class OrderBuilder extends Component {
 
             tabPanes = Object.entries(this.props.menu).map((value, key) => (
                 <TabPane tab={value[0].toUpperCase()} key={key}><Table key={key} columns={columns} dataSource={Object.entries(value[1]).map((value, key) => {
+                    console.log("value = " + value);
+                    console.log("key = " + key);
                     return {
-                        name: value,
-                        price: key
+                        name: value[0],
+                        price: value[1]
                     }
                 })}/></TabPane>
             ))
@@ -115,7 +112,7 @@ class OrderBuilder extends Component {
                 </Tabs>
                 <p>Current Price: <strong>{this.props.price.toFixed(2)}</strong></p>'
 
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+                <Modal title="Order Summary" visible={this.state.purchasing} onOk={this.handleOk} onCancel={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
                 <Button type={'primary'} onClick={this.showModal}>Order</Button>
