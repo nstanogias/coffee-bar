@@ -2,4 +2,9 @@ export {
     initBar,
     addDrink,
     removeDrink
-} from './actionsCreator';
+} from './barActionsCreator';
+
+export {
+    purchaseOrder,
+    fetchOrders
+} from './ordersActionCreator';

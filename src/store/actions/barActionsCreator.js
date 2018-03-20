@@ -20,7 +20,7 @@ export const addDrink = (data) => {
         price: data.price,
         name: data.name
     };
-}
+};
 
 export const removeDrink = (data) => {
     return {
@@ -28,7 +28,7 @@ export const removeDrink = (data) => {
         price: data.price,
         name: data.name
     };
-}
+};
 
 export const initBar = () => {
     return dispatch => {

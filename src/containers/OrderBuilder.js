@@ -55,7 +55,7 @@ class OrderBuilder extends Component {
                 title: 'Remove',
                 key: 'remove',
                 render: (record) => (
-                    <Button onClick={() => this.props.onDrinkRemoved(record)} type="primary"
+                    <Button disabled={this.props.order === null || (Object.keys(this.props.order).indexOf(record.name) === -1)} onClick={() => this.props.onDrinkRemoved(record)} type="primary"
                             icon="minus"> </Button>
                 ),
             },

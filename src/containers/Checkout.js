@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Input, Button} from 'antd';
 import { connect } from 'react-redux';
+import * as actions from '../store/actions/actions';
 
 class Checkout extends Component {
 
@@ -10,6 +11,13 @@ class Checkout extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                const orderData = {
+                    orderItems: this.props.order,
+                    price:this.props.price,
+                    contactData: values
+                }
+
+                this.props.onOrderDrinks(orderData);
             }
         });
     }
@@ -109,8 +117,15 @@ const CheckoutForm = Form.create()(Checkout);
 
 const mapStateToProps = state => {
     return {
-        order: state.bar.order
+        order: state.bar.order,
+        price: state.bar.price
     }
 }
 
-export default connect(mapStateToProps)(CheckoutForm);
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderDrinks: (orderData) => dispatch(actions.purchaseOrder(orderData))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

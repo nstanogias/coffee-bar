@@ -26,7 +26,6 @@ const addDrink = (state, action) => {
         updatedOrder = { [action.name]: state.order.hasOwnProperty(action.name) ? state.order[action.name] + 1 : 1};
     }
     const updated = updateObject(state.order, updatedOrder);
-    console.log(state.order);
     return updateObject( state, {
         totalPrice: state.totalPrice + action.price,
         order: updated
@@ -34,7 +33,21 @@ const addDrink = (state, action) => {
 }
 
 const removeDrink = (state, action) => {
-    return updateObject( state, {totalPrice: state.totalPrice - action.price} );
+    const updatedOrder = {[action.name]: state.order[action.name] - 1};
+    console.log(updatedOrder);
+    console.log(updatedOrder[action.name]);
+    const orderToUpdate = state.order;
+    let updated = updateObject(state.order, updatedOrder);
+    if(updatedOrder[action.name] === 0) {
+        delete orderToUpdate[action.name];
+        updated = updateObject(state.order, orderToUpdate);
+    }
+    console.log("orderToUpdate is ", orderToUpdate);
+
+    return updateObject( state, {
+        totalPrice: state.totalPrice - action.price,
+        order: updated
+    } );
 }
 
 
