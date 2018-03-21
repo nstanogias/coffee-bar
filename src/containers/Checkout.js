@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Form, Input, Button} from 'antd';
+import {Form, Input, Button, Layout} from 'antd';
+import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/actions';
 
@@ -25,90 +26,62 @@ class Checkout extends Component {
     render() {
         const {getFieldDecorator} = this.props.form;
 
-        const formItemLayout = {
-            labelCol: {
-                xs: {span: 24},
-                sm: {span: 8},
-            },
-            wrapperCol: {
-                xs: {span: 24},
-                sm: {span: 16},
-            },
-        };
-
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 8,
-                },
-            },
-        };
-
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <Form.Item
-                    {...formItemLayout}
-                    label="E-mail"
-                >
-                    {getFieldDecorator('email', {
-                        rules: [{
-                            type: 'email', message: 'The input is not valid E-mail!',
-                        }, {
-                            required: true, message: 'Please input your E-mail!',
-                        }],
-                    })(
-                        <Input/>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label={(<span>FirstName</span>)}
-                >
-                    {getFieldDecorator('firstname', {
-                        rules: [{required: true, message: 'Please input your firstname!', whitespace: true}],
-                    })(
-                        <Input/>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label={(<span>LastName</span>)}
-                >
-                    {getFieldDecorator('lastname', {
-                        rules: [{required: true, message: 'Please input your lastname!', whitespace: true}],
-                    })(
-                        <Input/>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label={(<span>Address</span>)}
-                >
-                    {getFieldDecorator('address', {
-                        rules: [{required: true, message: 'Please input your address!', whitespace: true}],
-                    })(
-                        <Input/>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label={(<span>Zip Code</span>)}
-                >
-                    {getFieldDecorator('zipcode', {
-                        rules: [{required: true, message: 'Please input your zipcode!', whitespace: true}],
-                    })(
-                        <Input/>
-                    )}
-                </Form.Item>
-                <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Order</Button>
-                </Form.Item>
-            </Form>
+            <Layout.Content style={{margin:'0 auto', width:'50%'}}>
+                <h1 style={{textAlign:'center'}}>Please fill in your contact details</h1>
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Item
+                        label="E-mail"
+                    >
+                        {getFieldDecorator('email', {
+                            rules: [{
+                                type: 'email', message: 'The input is not valid E-mail!',
+                            }, {
+                                required: true, message: 'Please input your E-mail!',
+                            }],
+                        })(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={(<span>FirstName</span>)}
+                    >
+                        {getFieldDecorator('firstname', {
+                            rules: [{required: true, message: 'Please input your firstname!', whitespace: true}],
+                        })(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={(<span>LastName</span>)}
+                    >
+                        {getFieldDecorator('lastname', {
+                            rules: [{required: true, message: 'Please input your lastname!', whitespace: true}],
+                        })(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={(<span>Address</span>)}
+                    >
+                        {getFieldDecorator('address', {
+                            rules: [{required: true, message: 'Please input your address!', whitespace: true}],
+                        })(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={(<span>Zip Code</span>)}
+                    >
+                        {getFieldDecorator('zipcode', {
+                            rules: [{required: true, message: 'Please input your zipcode!', whitespace: true}],
+                        })(
+                            <Input/>
+                        )}
+                    </Form.Item>
+                    <Button style={{float:'center'}} type="primary" htmlType="submit">Order</Button>
+                </Form>
+            </Layout.Content>
         );
     }
 }
