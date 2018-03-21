@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 
-export const setMenu = ( menu ) => {
+export const setMenu = (menu) => {
     return {
         type: actionTypes.SET_MENU,
         menu: menu
@@ -32,12 +32,12 @@ export const removeDrink = (data) => {
 
 export const initBar = () => {
     return dispatch => {
-        axios.get( 'https://react-coffee-bar.firebaseio.com/menu.json' )
-            .then( response => {
+        axios.get('https://react-coffee-bar.firebaseio.com/menu.json')
+            .then(response => {
                 dispatch(setMenu(response.data));
-            } )
-            .catch( error => {
+            })
+            .catch(error => {
                 dispatch(fetchMenuFailed());
-            } );
+            });
     };
 };

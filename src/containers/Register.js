@@ -1,15 +1,8 @@
 import React, {Component} from 'react';
 import {Form, Icon, Input, Button, Layout} from 'antd';
 import 'antd/dist/antd.css';
-import {connect} from 'react-redux';
-import * as actions from '../store/actions/actions';
 
-class Auth extends Component {
-
-    state = {
-        isSigneUp: true
-    }
-
+class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -19,11 +12,6 @@ class Auth extends Component {
         });
     }
 
-    handleSwitchAuthMode = () => {
-        this.setState(prevState => {
-            return {isSigneUp: !prevState.isSigneUp};
-        });
-    }
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -48,23 +36,18 @@ class Auth extends Component {
                         )}
                     </Form.Item>
                     <Form.Item>
-                        <Button htmlType="submit" type="primary"> Submit </Button>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Register
+                        </Button>
+                        <br></br>
+                        Have an account? <a href="">Log in!</a>
                     </Form.Item>
                 </Form>
-                <Button onClick={this.handleSwitchAuthMode} type="primary" className="login-form-button">
-                    Switch to {this.state.isSigneUp ? 'SIGN IN' : 'SIGN UP'}
-                </Button>
             </Layout.Content>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
-    }
-}
+const RegisterForm = Form.create()(Register);
 
-const AuthForm = Form.create()(Auth);
-
-export default connect(null, mapDispatchToProps)(AuthForm);
+export default RegisterForm;

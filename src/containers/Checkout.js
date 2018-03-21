@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Form, Input, Button, Layout} from 'antd';
 import 'antd/dist/antd.css';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actions from '../store/actions/actions';
 
 class Checkout extends Component {
-
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -14,7 +13,7 @@ class Checkout extends Component {
                 console.log('Received values of form: ', values);
                 const orderData = {
                     orderItems: this.props.order,
-                    price:this.props.price,
+                    price: this.props.price,
                     contactData: values
                 }
 
@@ -27,8 +26,8 @@ class Checkout extends Component {
         const {getFieldDecorator} = this.props.form;
 
         return (
-            <Layout.Content style={{margin:'0 auto', width:'50%'}}>
-                <h1 style={{textAlign:'center'}}>Please fill in your contact details</h1>
+            <Layout.Content style={{margin: '0 auto', width: '50%'}}>
+                <h1 style={{textAlign: 'center'}}>Please fill in your contact details</h1>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="E-mail"
@@ -79,7 +78,7 @@ class Checkout extends Component {
                             <Input/>
                         )}
                     </Form.Item>
-                    <Button style={{float:'center'}} type="primary" htmlType="submit">Order</Button>
+                    <Button style={{float: 'center'}} type="primary" htmlType="submit">Order</Button>
                 </Form>
             </Layout.Content>
         );
