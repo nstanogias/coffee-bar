@@ -21,7 +21,9 @@ const purchaseOrderFail = () => {
 };
 
 const fetchOrdersStart = () => {
-
+    return {
+        type: actionTypes.FETCH_ORDERS_START
+    }
 };
 
 const fetchOrdersSuccess = (orders) => {
@@ -31,8 +33,11 @@ const fetchOrdersSuccess = (orders) => {
     }
 };
 
-const fetchOrdersFail = () => {
-
+const fetchOrdersFail = (error) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_FAIL,
+        error: error
+    }
 };
 
 
@@ -45,7 +50,7 @@ export const purchaseOrder = (orderData) => {
                 dispatch(purchaseOrderSuccess(response.data.name, orderData));
             })
             .catch(error => {
-                dispatch(purchaseOrderFail());
+                dispatch(purchaseOrderFail(error));
             });
     };
 };
@@ -58,7 +63,7 @@ export const fetchOrders = () => {
                 dispatch(fetchOrdersSuccess(response.data));
             })
             .catch(error => {
-                dispatch(fetchOrdersFail());
+                dispatch(fetchOrdersFail(error));
             });
     };
 };

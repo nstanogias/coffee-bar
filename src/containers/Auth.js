@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Layout} from 'antd';
+import {Form, Icon, Input, Button, Layout, Spin} from 'antd';
 import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/actions';
+import Aux from '../hoc/Aux';
 
 class Auth extends Component {
 
     state = {
-        isSigneUp: true
+        isSignedUp: true
     }
 
     handleSubmit = (e) => {
@@ -15,21 +16,38 @@ class Auth extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                this.props.onAuth(values.userName, values.password, this.state.isSignedUp);
             }
         });
     }
 
     handleSwitchAuthMode = () => {
         this.setState(prevState => {
-            return {isSigneUp: !prevState.isSigneUp};
+            return {isSignedUp: !prevState.isSignedUp};
         });
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
+
+        let message = <h1>Log in Details</h1>;
+
+        if(this.props.error) {
+            message = <h1>{this.props.error}</h1>;
+        }
+
+        const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+        let spinner = null;
+
+        if(this.props.loading) {
+            spinner = <Spin indicator={antIcon}/>;
+        }
+
         return (
+            <Aux>
+            {spinner}
             <Layout.Content style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
-                <h1>Log in Details</h1>
+                {message}
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item>
                         {getFieldDecorator('userName', {
@@ -52,11 +70,19 @@ class Auth extends Component {
                     </Form.Item>
                 </Form>
                 <Button onClick={this.handleSwitchAuthMode} type="primary" className="login-form-button">
-                    Switch to {this.state.isSigneUp ? 'SIGN IN' : 'SIGN UP'}
+                    Switch to {this.state.isSignedUp ? 'SIGN IN' : 'SIGN UP'}
                 </Button>
             </Layout.Content>
+            </Aux>
         );
     }
+}
+
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error
+    };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -67,4 +93,4 @@ const mapDispatchToProps = dispatch => {
 
 const AuthForm = Form.create()(Auth);
 
-export default connect(null, mapDispatchToProps)(AuthForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);
