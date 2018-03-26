@@ -17,7 +17,7 @@ class Checkout extends Component {
                     contactData: values
                 }
 
-                this.props.onOrderDrinks(orderData);
+                this.props.onOrderDrinks(orderData, this.props.token);
             }
         });
     }
@@ -90,13 +90,14 @@ const CheckoutForm = Form.create()(Checkout);
 const mapStateToProps = state => {
     return {
         order: state.bar.order,
-        price: state.bar.price
+        price: state.bar.price,
+        token: state.auth.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderDrinks: (orderData) => dispatch(actions.purchaseOrder(orderData))
+        onOrderDrinks: (orderData, token) => dispatch(actions.purchaseOrder(orderData, token))
     }
 }
 

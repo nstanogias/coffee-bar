@@ -16,8 +16,11 @@ const purchaseOrderSuccess = (id, orderData) => {
     }
 };
 
-const purchaseOrderFail = () => {
-
+const purchaseOrderFail = (error) => {
+    return {
+        type: actionTypes.PURCHASE_ORDER_FAIL,
+        error
+    }
 };
 
 const fetchOrdersStart = () => {
@@ -41,10 +44,10 @@ const fetchOrdersFail = (error) => {
 };
 
 
-export const purchaseOrder = (orderData) => {
+export const purchaseOrder = (orderData, token) => {
     return dispatch => {
         dispatch(purchaseOrderStart());
-        axios.post('/orders.json', orderData)
+        axios.post('/orders.json?auth=' + token, orderData)
             .then(response => {
                 console.log(response.data);
                 dispatch(purchaseOrderSuccess(response.data.name, orderData));
@@ -55,12 +58,21 @@ export const purchaseOrder = (orderData) => {
     };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
-        axios.get('https://react-coffee-bar.firebaseio.com/orders.json')
+        axios.get('https://react-coffee-bar.firebaseio.com/orders.json?auth=' + token)
             .then(response => {
-                dispatch(fetchOrdersSuccess(response.data));
+                // console.log(response);
+                const fetchedOrders = [];
+                for ( let key in response.data ) {
+                    fetchedOrders.push( {
+                        ...response.data[key],
+                        id: key
+                    } );
+                }
+                console.log("orders are", fetchedOrders);
+                dispatch(fetchOrdersSuccess(fetchedOrders));
             })
             .catch(error => {
                 dispatch(fetchOrdersFail(error));

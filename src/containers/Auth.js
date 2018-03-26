@@ -32,48 +32,50 @@ class Auth extends Component {
 
         let message = <h1>Log in Details</h1>;
 
-        if(this.props.error) {
+        if (this.props.error) {
             message = <h1>{this.props.error}</h1>;
         }
 
-        const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+        const antIcon = <Icon type="loading" style={{fontSize: 62}} spin/>;
         let spinner = null;
 
-        if(this.props.loading) {
-            spinner = <Spin indicator={antIcon}/>;
+        if (this.props.loading) {
+            spinner = <Spin indicator={antIcon} size="large"/>;
         }
 
         return (
-            <Aux>
-            {spinner}
             <Layout.Content style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
-                {message}
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Item>
-                        {getFieldDecorator('userName', {
-                            rules: [{required: true, message: 'Please input your username!'}],
-                        })(
-                            <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                                   placeholder="Username"/>
-                        )}
-                    </Form.Item>
-                    <Form.Item>
-                        {getFieldDecorator('password', {
-                            rules: [{required: true, message: 'Please input your Password!'}],
-                        })(
-                            <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
-                                   placeholder="Password"/>
-                        )}
-                    </Form.Item>
-                    <Form.Item>
-                        <Button htmlType="submit" type="primary"> Submit </Button>
-                    </Form.Item>
-                </Form>
-                <Button onClick={this.handleSwitchAuthMode} type="primary" className="login-form-button">
-                    Switch to {this.state.isSignedUp ? 'SIGN IN' : 'SIGN UP'}
-                </Button>
+                {this.props.loading && spinner}
+                {!this.props.loading &&
+                <Aux>
+                    {message}
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Item>
+                            {getFieldDecorator('userName', {
+                                rules: [{required: true, message: 'Please input your username!'}],
+                            })(
+                                <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                                       placeholder="Username"/>
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            {getFieldDecorator('password', {
+                                rules: [{required: true, message: 'Please input your Password!'}],
+                            })(
+                                <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                                       placeholder="Password"/>
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button htmlType="submit" type="primary"> Submit </Button>
+                        </Form.Item>
+                    </Form>
+                    <Button onClick={this.handleSwitchAuthMode} type="primary" className="login-form-button">
+                        Switch to {this.state.isSignedUp ? 'SIGN IN' : 'SIGN UP'}
+                    </Button>
+                </Aux>
+                }
             </Layout.Content>
-            </Aux>
         );
     }
 }
