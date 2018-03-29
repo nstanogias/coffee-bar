@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import OrderBuilder from './containers/OrderBuilder';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 import Checkout from './containers/Checkout';
 import Orders from './containers/Orders';
 import Auth from './containers/Auth';
 import {connect} from 'react-redux';
 import Logout from "./containers/Logout";
+import * as actions from './store/actions/actions';
 
 class App extends Component {
+
+
+    componentDidMount() {
+        this.props.onTryAutoSignUp();
+    }
+
     render () {
         return (
             <div>
@@ -46,6 +53,12 @@ const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.token !== null
     }
-}
+};
 
-export default connect(mapStateToProps,null)(App);
+const mapDispatchToProps = dispatch => {
+    return {
+        onTryAutoSignUp: () => dispatch(actions.authCheckState())
+    };
+};
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps())(App));
