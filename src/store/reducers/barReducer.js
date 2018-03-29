@@ -5,12 +5,15 @@ const initialState = {
     menu: null,
     totalPrice: 0,
     error: false,
-    order: null
+    order: null,
+    building: false
 }
 
 const setMenu = (state, action) => {
     return updateObject(state, {
-        menu: action.menu
+        menu: action.menu,
+        error: false,
+        building: false
     });
 }
 
@@ -28,7 +31,8 @@ const addDrink = (state, action) => {
     const updated = updateObject(state.order, updatedOrder);
     return updateObject(state, {
         totalPrice: state.totalPrice + action.price,
-        order: updated
+        order: updated,
+        building: true
     });
 }
 
@@ -46,7 +50,8 @@ const removeDrink = (state, action) => {
 
     return updateObject(state, {
         totalPrice: state.totalPrice - action.price,
-        order: updated
+        order: updated,
+        building: true
     });
 }
 

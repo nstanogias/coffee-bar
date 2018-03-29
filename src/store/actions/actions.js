@@ -10,5 +10,7 @@ export {
 } from './ordersActionCreator';
 
 export {
-    auth
+    logout,
+    auth,
+    setAuthRedirectPath
 } from './authActionCreator';

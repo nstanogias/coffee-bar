@@ -2,40 +2,40 @@ import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 
 
-const authStart = () => {
+export const authStart = () => {
     return {
         type: actionTypes.AUTH_START
     }
-}
+};
 
-const authSuccess = (token, userId) => {
+export export const authSuccess = (token, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         token,
         userId
     }
-}
+};
 
-const authFail = (error) => {
+export const authFail = (error) => {
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
     }
-}
+};
 
-const authLogOut = () => {
+export const logout = () => {
     return {
         type: actionTypes.AUTH_LOGOUT
     }
-}
+};
 
-const checkAuthTimeout = (expirationTime) => {
+export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
-            dispatch(authLogOut());
+            dispatch(logout());
         }, expirationTime * 1000);
     };
-}
+};
 
 export const auth = (email, password, isSignUp) => {
     return dispatch => {
@@ -60,4 +60,11 @@ export const auth = (email, password, isSignUp) => {
                 dispatch(authFail(error.response.data.error.message));
             })
     };
+};
+
+export const setAuthRedirectPath = (path) => {
+    return {
+        type: actionTypes.SET_AUTH_REDIRECT_PATH,
+        path
+    }
 };

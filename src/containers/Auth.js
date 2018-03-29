@@ -4,11 +4,18 @@ import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/actions';
 import Aux from '../hoc/Aux';
+import {Redirect} from 'react-router-dom';
 
 class Auth extends Component {
 
     state = {
         isSignedUp: true
+    };
+
+    componentDidMount() {
+        if(!this.props.buildingOrder && this.props.authRedirectPath !== '/') {
+            this.props.onSetAuthRedirectPath();
+        }
     }
 
     handleSubmit = (e) => {
@@ -19,13 +26,13 @@ class Auth extends Component {
                 this.props.onAuth(values.userName, values.password, this.state.isSignedUp);
             }
         });
-    }
+    };
 
     handleSwitchAuthMode = () => {
         this.setState(prevState => {
             return {isSignedUp: !prevState.isSignedUp};
         });
-    }
+    };
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -43,8 +50,14 @@ class Auth extends Component {
             spinner = <Spin indicator={antIcon} size="large"/>;
         }
 
+        let authRedirect = null;
+        if(this.props.isAuthenticated) {
+            authRedirect = <Redirect to={this.props.authRedirectPath}/>;
+        }
+
         return (
             <Layout.Content style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
+                {authRedirect}
                 {this.props.loading && spinner}
                 {!this.props.loading &&
                 <Aux>
@@ -83,13 +96,17 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuthenticated: state.auth.token !== null,
+        buildingOrder: state.bar.building,
+        authRedirectPath: state.auth.authRedirectPath
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
+        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
     }
 }
 

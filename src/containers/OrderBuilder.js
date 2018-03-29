@@ -7,6 +7,7 @@ import * as actions from '../store/actions/actions';
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
 import {Tabs, Table, Button, Modal} from 'antd';
 import OrderSummary from '../components/OrderSummary/OrderSummary';
+import {Redirect} from 'react-router-dom';
 import Aux from '../hoc/Aux';
 
 const TabPane = Tabs.TabPane;
@@ -27,16 +28,17 @@ class OrderBuilder extends Component {
     }
 
     showModal = () => {
-        this.setState({purchasing: true});
+        if(this.props.isAuthenticated) {
+            this.setState({purchasing: true});
+        } else {
+            this.props.onSetAuthRedirectPath('/checkout');
+            this.props.history.push('/authentication');
+        }
+
     }
 
     purchaseCancelHandler = () => {
         this.setState({purchasing: false});
-    }
-
-    purchaseContinueHandler = () => {
-        // this.props.onInitPurchase();
-        // this.props.history.push('/checkout');
     }
 
     render() {
@@ -88,10 +90,7 @@ class OrderBuilder extends Component {
         if (this.props.order) {
             orderSummary = <OrderSummary
                 items={this.props.order}
-                price={this.props.price}
-                purchaseCancelled={this.purchaseCancelHandler}
-                purchaseContinued={this.purchaseContinueHandler}/>;
-
+                price={this.props.price}/>;
         }
 
         return (
@@ -103,7 +102,7 @@ class OrderBuilder extends Component {
                        onCancel={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
-                <Button type={'primary'} disabled={this.props.price === 0} onClick={this.showModal}>Order</Button>
+                <Button type={'primary'} disabled={this.props.price === 0} onClick={this.showModal}>{this.props.isAuthenticated?'ORDER NOW':'SIGN UP TO ORDER'}</Button>
             </Aux>
         )
     }
@@ -113,7 +112,8 @@ const mapStateToProps = state => {
     return {
         menu: state.bar.menu,
         price: state.bar.totalPrice,
-        order: state.bar.order
+        order: state.bar.order,
+        isAuthenticated: state.auth.token !== null
     };
 }
 
@@ -121,7 +121,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onInitBar: () => dispatch(actions.initBar()),
         onDrinkAdded: (data) => dispatch(actions.addDrink(data)),
-        onDrinkRemoved: (data) => dispatch(actions.removeDrink(data))
+        onDrinkRemoved: (data) => dispatch(actions.removeDrink(data)),
+        onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
     }
 }
 
