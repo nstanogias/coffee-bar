@@ -101,14 +101,14 @@ const mapStateToProps = state => {
         buildingOrder: state.bar.building,
         authRedirectPath: state.auth.authRedirectPath
     };
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
+        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
         onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
     }
-}
+};
 
 const AuthForm = Form.create()(Auth);
 

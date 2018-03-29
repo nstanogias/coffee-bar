@@ -7,7 +7,6 @@ import * as actions from '../store/actions/actions';
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
 import {Tabs, Table, Button, Modal} from 'antd';
 import OrderSummary from '../components/OrderSummary/OrderSummary';
-import {Redirect} from 'react-router-dom';
 import Aux from '../hoc/Aux';
 
 const TabPane = Tabs.TabPane;
@@ -16,7 +15,7 @@ class OrderBuilder extends Component {
 
     state = {
         purchasing: false
-    }
+    };
 
     componentWillMount() {
         this.props.onInitBar();
@@ -25,7 +24,7 @@ class OrderBuilder extends Component {
 
     handleOk = () => {
         this.props.history.push('/checkout');
-    }
+    };
 
     showModal = () => {
         if(this.props.isAuthenticated) {
@@ -34,12 +33,11 @@ class OrderBuilder extends Component {
             this.props.onSetAuthRedirectPath('/checkout');
             this.props.history.push('/authentication');
         }
-
-    }
+    };
 
     purchaseCancelHandler = () => {
         this.setState({purchasing: false});
-    }
+    };
 
     render() {
 
@@ -82,7 +80,7 @@ class OrderBuilder extends Component {
                                                                                price: value[1]
                                                                            }
                                                                        })}/></TabPane>
-            ))
+            ));
             tabs = (<Tabs>{tabPanes}</Tabs>);
         }
 
@@ -115,7 +113,7 @@ const mapStateToProps = state => {
         order: state.bar.order,
         isAuthenticated: state.auth.token !== null
     };
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -124,6 +122,6 @@ const mapDispatchToProps = dispatch => {
         onDrinkRemoved: (data) => dispatch(actions.removeDrink(data)),
         onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(OrderBuilder, axios));

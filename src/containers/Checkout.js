@@ -14,7 +14,8 @@ class Checkout extends Component {
                 const orderData = {
                     orderItems: this.props.order,
                     price: this.props.price,
-                    contactData: values
+                    contactData: values,
+                    userId: this.props.userId
                 }
 
                 this.props.onOrderDrinks(orderData, this.props.token);
@@ -91,7 +92,8 @@ const mapStateToProps = state => {
     return {
         order: state.bar.order,
         price: state.bar.price,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 

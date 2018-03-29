@@ -58,10 +58,11 @@ export const purchaseOrder = (orderData, token) => {
     };
 };
 
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
-        axios.get('https://react-coffee-bar.firebaseio.com/orders.json?auth=' + token)
+        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+        axios.get('/orders.json' + queryParams)
             .then(response => {
                 // console.log(response);
                 const fetchedOrders = [];
