@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Layout, Spin} from 'antd';
+import {Form, Icon, Input, Button, Spin} from 'antd';
 import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/actions';
@@ -56,7 +56,7 @@ class Auth extends Component {
         }
 
         return (
-            <Layout.Content style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
+            <div>
                 {authRedirect}
                 {this.props.loading && spinner}
                 {!this.props.loading &&
@@ -88,7 +88,7 @@ class Auth extends Component {
                     </Button>
                 </Aux>
                 }
-            </Layout.Content>
+            </div>
         );
     }
 }

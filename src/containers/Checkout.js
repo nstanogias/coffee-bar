@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Layout} from 'antd';
+import {Form, Input, Button} from 'antd';
 import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions/actions';
@@ -27,7 +27,7 @@ class Checkout extends Component {
         const {getFieldDecorator} = this.props.form;
 
         return (
-            <Layout.Content style={{margin: '0 auto', width: '50%'}}>
+            <div>
                 <h1 style={{textAlign: 'center'}}>Please fill in your contact details</h1>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
@@ -81,7 +81,7 @@ class Checkout extends Component {
                     </Form.Item>
                     <Button style={{float: 'center'}} type="primary" htmlType="submit">Order</Button>
                 </Form>
-            </Layout.Content>
+            </div>
         );
     }
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Layout} from 'antd';
+import {Form, Icon, Input, Button} from 'antd';
 import 'antd/dist/antd.css';
 
 class Register extends Component {
@@ -16,7 +16,7 @@ class Register extends Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
-            <Layout.Content style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
+            <div>
                 <h1>Log in Details</h1>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item>
@@ -43,7 +43,7 @@ class Register extends Component {
                         Have an account? <a href="">Log in!</a>
                     </Form.Item>
                 </Form>
-            </Layout.Content>
+            </div>
         );
     }
 }

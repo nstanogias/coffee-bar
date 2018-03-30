@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import axios from '../axios-orders';
 import * as actions from '../store/actions/actions';
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
-import {Tabs, Table, Button, Modal} from 'antd';
+import {Tabs, Table, Button, Modal, Card} from 'antd';
 import OrderSummary from '../components/OrderSummary/OrderSummary';
 import Aux from '../hoc/Aux';
 
@@ -92,16 +92,20 @@ class OrderBuilder extends Component {
         }
 
         return (
-            <Aux>
-                {tabs}
-                <p>Current Price: <strong>{this.props.price.toFixed(2)}</strong></p>'
 
-                <Modal title="Order Summary" visible={this.state.purchasing} onOk={this.handleOk}
-                       onCancel={this.purchaseCancelHandler}>
-                    {orderSummary}
-                </Modal>
-                <Button type={'primary'} disabled={this.props.price === 0} onClick={this.showModal}>{this.props.isAuthenticated?'ORDER NOW':'SIGN UP TO ORDER'}</Button>
-            </Aux>
+                    <Aux>
+                        <Card bordered={true}>
+                            {tabs}
+                            <p>Current Price: <strong>{this.props.price.toFixed(2)}</strong></p>'
+
+                            <Modal title="Order Summary" visible={this.state.purchasing} onOk={this.handleOk}
+                                   onCancel={this.purchaseCancelHandler}>
+                                {orderSummary}
+                            </Modal>
+                            <Button type={'primary'} disabled={this.props.price === 0} onClick={this.showModal}>{this.props.isAuthenticated?'ORDER NOW':'SIGN UP TO ORDER'}
+                            </Button>
+                        </Card>
+                    </Aux>
         )
     }
 }
