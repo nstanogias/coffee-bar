@@ -7,7 +7,7 @@ import Auth from './containers/Auth';
 import {connect} from 'react-redux';
 import Logout from "./containers/Logout";
 import * as actions from './store/actions/actions';
-
+import './App.css';
 import {Layout, Menu} from 'antd';
 
 const {Header, Content, Footer} = Layout;
@@ -26,7 +26,6 @@ class App extends Component {
             <div>
                 <Layout className="layout" style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
                     <Header>
-                        <div className="logo"/>
                         <Menu
                             theme="dark"
                             mode="horizontal"
