@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import OrderBuilder from './containers/OrderBuilder';
-import {Route, NavLink, withRouter} from 'react-router-dom';
+import {Route, NavLink, withRouter, Switch, Redirect} from 'react-router-dom';
 import Checkout from './containers/Checkout';
 import Orders from './containers/Orders';
 import Auth from './containers/Auth';
@@ -14,14 +14,32 @@ const {Header, Content, Footer} = Layout;
 
 class App extends Component {
 
-
-    componentDidMount() {
-        console.log(this.props.isAuthenticated);
+    componentWillMount() {
         this.props.onTryAutoSignUp();
     }
 
     render() {
-        console.log("auth", this.props.isAuthenticated);
+        let routes = (
+            <Switch>
+                <Route path="/authentication" component={Auth} />
+                <Route path="/" exact component={OrderBuilder} />
+                <Redirect to="/" />
+            </Switch>
+        );
+
+        if ( this.props.isAuthenticated ) {
+            routes = (
+                <Switch>
+                    <Route path="/checkout" exact component={Checkout} />
+                    <Route path="/orders" component={Orders} />
+                    <Route path="/logout" component={Logout} />
+                    <Route path="/authentication" component={Auth} />
+                    <Route path="/" exact component={OrderBuilder} />
+                    <Redirect to="/" />
+                </Switch>
+            );
+        }
+
         return (
             <div>
                 <Layout className="layout" style={{margin: '0 auto', width: '50%', textAlign: 'center'}}>
@@ -32,23 +50,22 @@ class App extends Component {
                             style={{lineHeight: '64px'}}
                         >
                             <Menu.Item key="1"><NavLink exact to="/">Home</NavLink></Menu.Item>
-                            <Menu.Item key="2"><NavLink to="/checkout">Checkout</NavLink></Menu.Item>
-                            <Menu.Item key="3">{this.props.isAuthenticated
-                                ? <NavLink to="/orders">Orders></NavLink>
+                            <Menu.Item key="2">{this.props.isAuthenticated
+                                ? <NavLink to="/checkout">Checkout</NavLink>
                                 : null}
                             </Menu.Item>
-                            <Menu.Item key="4">{this.props.isAuthenticated
+                            <Menu.Item key="3">{this.props.isAuthenticated
+                                ? <NavLink to="/orders">Orders</NavLink>
+                                : null}
+                            </Menu.Item>
+                            <Menu.Item key="4">{!this.props.isAuthenticated
                                 ? <NavLink to="/authentication">Authenticate</NavLink>
                                 : <NavLink to="/logout">Logout</NavLink>}
                             </Menu.Item>
                         </Menu>
                     </Header>
                     <Content>
-                        <Route path="/" exact component={OrderBuilder}/>
-                        <Route path="/checkout" component={Checkout}/>
-                        <Route path="/orders" component={Orders}/>
-                        <Route path="/authentication" component={Auth}/>
-                        <Route path="/logout" component={Logout}/>
+                        {routes}
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
                         Created by Nikolaos Stanogias ©2018
@@ -62,7 +79,7 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         isAuthenticated: state.auth.token !== null
-    }
+    };
 };
 
 const mapDispatchToProps = dispatch => {

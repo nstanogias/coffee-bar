@@ -10,7 +10,6 @@ class Checkout extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 const orderData = {
                     orderItems: this.props.order,
                     price: this.props.price,

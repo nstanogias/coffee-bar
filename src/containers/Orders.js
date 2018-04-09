@@ -17,7 +17,6 @@ class Orders extends Component {
         let orders = <Spin indicator={antIcon} size="large"/>;
 
         if(!this.props.loading) {
-            console.log(this.props.orders);
             orders = <div style={{ background: '#ECECEC', padding: '30px' }}>
                 <Row gutter={16}>
                     {this.props.orders.map(order => {
